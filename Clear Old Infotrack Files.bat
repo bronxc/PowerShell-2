@@ -1,0 +1,1 @@
+C:\Windows\System32\forfiles.exe -p "C:\Users\secretservices\AppData\Local\Temp" -s -m *.tmp -d 1 -c "cmd /c del @path 2>nul" 2>nul

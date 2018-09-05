@@ -1,0 +1,66 @@
+----Get the version of installed PowerShell----
+$PSVersionTable.PSVersion
+
+----Bypass the execution policy----
+Set-ExecutionPolicy -ExecutionPolicy Bypass
+
+----Get full system information----
+systeminfo
+
+----Gain Powershell access to remote computer----
+
+----Run 'winrm quickconfig' on the remote server once, that will be accessed later, to enable pshell remoting.----
+psexec \\servername -u domain\username -p password cmd
+winrm quickconfig
+exit
+
+----Connect using pshell remoting----
+$SavedCred = Get-Credential -Credential domain\username
+Enter-PSSession -ComputerName $RemoteServerName -Credential $SavedCred
+
+Set-Location \\servername\sharename
+Copy-Item \\servername1\sharename1\filename.ext \\servername2\sharename2
+Remove-Item \\servername\sharename\foldername\filename.ext
+Copy-Item C:\scripts c:\test -recurse		//copies 'scripts' folder in 'test' folder along with all contents.
+
+vssadmin list writers
+
+----View current drive mappings----
+net use
+
+----Make new drive mappings----
+net use Z: "\\path goes here" /y
+
+----Get information on installed roles and features----
+Get-WindowsFeature | Where-Object {$_.installstate -eq "installed"} | Format-List Name,Installstate | more
+
+----Get current time sources----
+net time
+
+----Modify time sync source on PDC----
+(TO BE USED ONLY ON PDC since they are sources for rest of the domain and subdomains)
+w32tm /query /status			//shows current config
+w32tm /config /syncfromflags:MANUAL /manualpeerlist:pool.ntp.org /reliable:YES		//modifies the sources
+w32tm /config /update		//saves the changes
+
+----Ping and save timestamped output to a log file----
+ping.exe -t google.com | Foreach{"{0} - {1}" -f (Get-Date),$_} >> C:\Scripts\pingOutput.log
+
+----Delete a specific file extension recursively----
+Get-ChildItem D:\folder -include *.tmp -recurse | foreach ($_) {remove-item $_.fullname}
+
+----Pause exectuion of script of 5 secs----
+Start-Sleep -s 5
+
+----Get last bootime, time since last reboot----
+Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
+
+----Get windows update log----
+Get-WindowsUpdateLog
+
+----Get list of installed Windows updates KB----
+wmic qfe list
+
+----[[[[UNTESTED---Uninstall a windows update KB---UNTESTED]]]]----
+wusa /uninstall /kb:$number
+

@@ -1,0 +1,1 @@
+forfiles -p c:\windows\system32\winevt\logs\ -m *.evtx -d -60 -c "cmd /c del @path"

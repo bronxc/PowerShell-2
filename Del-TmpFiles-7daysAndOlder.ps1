@@ -1,0 +1,2 @@
+#Get-ChildItem "C:\Users\secretservices\AppData\Local\Temp" -Filter '*.tmp' -Recurse -File | Where CreationTime -lt  (Get-Date).AddDays(-1)  | Remove-Item -Force
+Get-ChildItem "C:\Users\secretservices\AppData\Local\Temp" -Filter '*.tmp' -Recurse -File | Where-Object { $_.LastWriteTime -lt (get-date).AddDays(-7)}  | Remove-Item -Force
