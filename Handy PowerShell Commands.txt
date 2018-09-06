@@ -29,7 +29,8 @@ vssadmin list writers
 net use
 
 ----Make new drive mappings----
-net use Z: "\\path goes here" /y
+net use Z: "\\path goes here" /PERSISTENT:YES
+net use Z: "\\path goes here" $password /USER:$username /PERSISTENT:YES /SAVECRED	//to setup mapping with alternate account
 
 ----Get information on installed roles and features----
 Get-WindowsFeature | Where-Object {$_.installstate -eq "installed"} | Format-List Name,Installstate | more
