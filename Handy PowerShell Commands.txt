@@ -7,6 +7,9 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 ----Get full system information----
 systeminfo
 
+----Function to insert TimeStamp----
+Function insertTimeStamp { return '[' + (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + '] : ' }	//use by (insertTimeStamp)
+
 ----Gain Powershell access to remote computer----
 
 ----Run 'winrm quickconfig' on the remote server once, that will be accessed later, to enable pshell remoting.----
