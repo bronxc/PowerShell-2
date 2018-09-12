@@ -48,7 +48,7 @@ w32tm /config /syncfromflags:MANUAL /manualpeerlist:pool.ntp.org /reliable:YES		
 w32tm /config /update		//saves the changes
 
 ----Ping and save timestamped output to a log file----
-ping.exe -t google.com | Foreach{"{0} - {1}" -f (Get-Date),$_} >> C:\Scripts\pingOutput.log
+ping.exe -t google.com | Foreach{"{0} - {1}" -f ((Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + ' : '),$_} >> C:\Scripts\pingOutput.log
 
 ----Delete a specific file extension recursively----
 Get-ChildItem D:\folder -include *.tmp -recurse | foreach ($_) {remove-item $_.fullname}
