@@ -35,6 +35,9 @@ net use
 net use Z: "\\path goes here" /PERSISTENT:YES
 net use Z: "\\path goes here" $password /USER:$username /PERSISTENT:YES /SAVECRED	//to setup mapping with alternate account
 
+----Remove drive mappings----
+net use Z: /delete
+
 ----Get information on installed roles and features----
 Get-WindowsFeature | Where-Object {$_.installstate -eq "installed"} | Format-List Name,Installstate | more
 
