@@ -27,6 +27,7 @@ Remove-Item \\servername\sharename\foldername\filename.ext
 Copy-Item C:\scripts c:\test -recurse		//copies 'scripts' folder in 'test' folder along with all contents.
 
 vssadmin list writers
+vssadmin list providers
 
 ----View current drive mappings----
 net use
@@ -71,3 +72,5 @@ wmic qfe list
 ----[[[[UNTESTED---Uninstall a windows update KB---UNTESTED]]]]----
 wusa /uninstall /kb:$number
 
+----get a list of all currently logged in users----
+query user
