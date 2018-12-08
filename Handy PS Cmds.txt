@@ -26,8 +26,11 @@ Copy-Item \\servername1\sharename1\filename.ext \\servername2\sharename2
 Remove-Item \\servername\sharename\foldername\filename.ext
 Copy-Item C:\scripts c:\test -recurse		//copies 'scripts' folder in 'test' folder along with all contents.
 
+----View VSS Writers and Providers----
+
 vssadmin list writers
 vssadmin list providers
+vssadmin list shadows
 
 ----View current drive mappings----
 net use
@@ -74,3 +77,29 @@ wusa /uninstall /kb:$number
 
 ----get a list of all currently logged in users----
 query user
+
+----Get SQL Version----
+Invoke-Sqlcmd -Query "SELECT @@VERSION;" -QueryTimeout 3
+Invoke-SqlCmd -query "select @@version" -ServerInstance "localhost"
+
+----Check Windows Activation Status----
+slmgr /xpr		//expiration date
+slmgr /dli		//display license infomation
+slmgr /dlv		//display detailed license information
+
+----Attempt Activation Using whichever key is installed----
+slmgr.vbs /ato
+
+----Check which  KMS server is being attempted for activation----
+nslookup -type=srv _vlmcs._tcp
+
+----Manually assign a KMS host to a client----
+slmgr.vbs /skms <value>:<port>
+slmgr.vbs /skms kms.core.windows.net:1688
+
+----Install Azure PowerShell Module----
+Install-Module -Name AzureRM -AllowClobber
+
+----Connect to Azure PowerShell----
+Import-Module AzureRM
+Connect-AzureRmAccount
