@@ -35,6 +35,9 @@ vssadmin list shadows
 ----View current drive mappings----
 net use
 
+----View current admin shares----
+net share
+
 ----Make new drive mappings----
 net use Z: "\\path goes here" /PERSISTENT:YES
 net use Z: "\\path goes here" $password /USER:$username /PERSISTENT:YES /SAVECRED	//to setup mapping with alternate account
@@ -54,7 +57,7 @@ w32tm /query /status			//shows current config
 w32tm /config /syncfromflags:MANUAL /manualpeerlist:pool.ntp.org /reliable:YES		//modifies the sources
 w32tm /config /update		//saves the changes
 
-----Ping and save timestamped output to a log file----
+----Ping test and save timestamped output to a log file----
 ping.exe -t google.com | Foreach{"{0} - {1}" -f ((Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + ' : '),$_} >> C:\Scripts\pingOutput.log
 
 ----Delete a specific file extension recursively----
@@ -103,3 +106,6 @@ Install-Module -Name AzureRM -AllowClobber
 ----Connect to Azure PowerShell----
 Import-Module AzureRM
 Connect-AzureRmAccount
+
+----Degragment all drives----
+defrag /c /v >> C:\Scripts\defragOutput.log
