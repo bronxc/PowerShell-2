@@ -109,3 +109,11 @@ Connect-AzureRmAccount
 
 ----Degragment all drives----
 defrag /c /v >> C:\Scripts\defragOutput.log
+
+----Degragment all drives----
+Get-VpnConnection
+Set-VpnConnection -Name "RMGVPN" -SplitTunneling $true
+
+----Test SMTP email settings----
+Send-MailMessage –From user@aquaticachievers.com.au –To muhammad.majid@manganoit.com.au –Subject “Test Email” –Body “Test SMTP Relay Service” -SmtpServer aquaticachievers-com-au.mail.protection.outlook.com
+
