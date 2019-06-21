@@ -21,13 +21,13 @@ exit
 $SavedCred = Get-Credential -Credential domain\username
 Enter-PSSession -ComputerName $RemoteServerName -Credential $SavedCred
 
+----Copying files, Moving files----
 Set-Location \\servername\sharename
 Copy-Item \\servername1\sharename1\filename.ext \\servername2\sharename2
 Remove-Item \\servername\sharename\foldername\filename.ext
 Copy-Item C:\scripts c:\test -recurse		//copies 'scripts' folder in 'test' folder along with all contents.
 
 ----View VSS Writers and Providers----
-
 vssadmin list writers
 vssadmin list providers
 vssadmin list shadows
@@ -110,10 +110,29 @@ Connect-AzureRmAccount
 ----Degragment all drives----
 defrag /c /v >> C:\Scripts\defragOutput.log
 
-----Degragment all drives----
+----Set a VPN connection to split Tunnel----
 Get-VpnConnection
 Set-VpnConnection -Name "RMGVPN" -SplitTunneling $true
 
 ----Test SMTP email settings----
 Send-MailMessage –From user@aquaticachievers.com.au –To muhammad.majid@manganoit.com.au –Subject “Test Email” –Body “Test SMTP Relay Service” -SmtpServer aquaticachievers-com-au.mail.protection.outlook.com
+Send-MailMessage –From blue.apache@stjohnqld.com.au –To muhammad.majid@blueapache.com –Subject “Test Email” –Body “Test SMTP Relay Service” -SmtpServer smtp.office365.com
+
+----Add User to Remote Desktop Users Group via PowerShell----
+Add-LocalGroupMember -Group "Remote Desktop Users" -Member $username 
+
+----Remove User from Remote Desktop Users Group via PowerShell----
+Remove-LocalGroupMember -Group "Remote Desktop Users" -Member $username
+
+----Copy / Mirror all contents of a directory to another creating destination if doesn't exist----
+Robocopy 'C:\Rocket Software.bkp_20190611' 'C:\Rocket Software' /MIR
+
+----Grant local administrator rights to a User----
+net localgroup administrators $username /add
+net localgroup "Remote desktop users" $username /add
+
+----Remove local administrator rights from User----
+net localgroup administrators $username /delete
+net localgroup "Remote desktop users" $username /delete
+
 
