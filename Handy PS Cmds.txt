@@ -135,4 +135,7 @@ net localgroup "Remote desktop users" $username /add
 net localgroup administrators $username /delete
 net localgroup "Remote desktop users" $username /delete
 
-
+----Generate random password----
+Add-Type -AssemblyName System.Web	//assembly to use
+$Password = "Welcome" + [system.web.security.membership]::GeneratePassword(x,y)	//x = length in characters, y = minimum number of non-alphanumeric characters
+$SecurePass = $Password | ConvertTo-SecureString -AsPlainText -Force	//secure password object
