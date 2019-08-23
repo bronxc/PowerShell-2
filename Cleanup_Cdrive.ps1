@@ -7,7 +7,7 @@
    Cleans the C: drive's Window Temperary files, Windows SoftwareDistribution folder, 
    the local users Temperary folder, IIS logs(if applicable) and empties the recycling bin. 
    All deleted files will go into a log transcript in $env:TEMP. By default this 
-   script leaves files that are newer than 7 days old however this variable can be edited.
+   script leaves files that are newer than 7 days however this variable can be edited.
 
 .EXAMPLE
    PS C:\> .\Start-Cleanup.ps1

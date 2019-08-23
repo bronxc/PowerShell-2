@@ -7,6 +7,9 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 ----Get full system information----
 systeminfo
 
+----Get Workstation Serial Number of PC----
+wmic bios get serialnumber
+
 ----Function to insert TimeStamp----
 Function insertTimeStamp { return '[' + (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + '] : ' }	//use by (insertTimeStamp)
 
@@ -139,3 +142,5 @@ net localgroup "Remote desktop users" $username /delete
 Add-Type -AssemblyName System.Web	//assembly to use
 $Password = "Welcome" + [system.web.security.membership]::GeneratePassword(x,y)	//x = length in characters, y = minimum number of non-alphanumeric characters
 $SecurePass = $Password | ConvertTo-SecureString -AsPlainText -Force	//secure password object
+
+
