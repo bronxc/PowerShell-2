@@ -89,10 +89,10 @@ Invoke-Sqlcmd -Query "SELECT @@VERSION;" -QueryTimeout 3
 Invoke-SqlCmd -query "select @@version" -ServerInstance "localhost"
 
 ----Check Windows Activation Status----
-slmgr /xpr		//expiration date
-slmgr /dli		//display license infomation
-slmgr /dlv		//display detailed license information
-
+slmgr /xpr			//expiration date
+slmgr /dli			//display license infomation
+slmgr /dlv			//display detailed license information
+slmgr.vbs /rearm	//extends or reset activation timer
 ----Attempt Activation Using whichever key is installed----
 slmgr.vbs /ato
 
