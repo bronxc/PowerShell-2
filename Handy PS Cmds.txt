@@ -77,6 +77,7 @@ Get-WindowsUpdateLog
 
 ----Get list of installed Windows updates KB----
 wmic qfe list
+wmic qfe list >> C:\Scripts\Installed_Patches.txt
 
 ----[[[[UNTESTED---Uninstall a windows update KB---UNTESTED]]]]----
 wusa /uninstall /kb:$number
