@@ -135,6 +135,7 @@ Robocopy 'C:\Rocket Software.bkp_20190611' 'C:\Rocket Software' /MIR
 ----Grant local administrator rights to a User----
 net localgroup administrators $username /add
 net localgroup "Remote desktop users" $username /add
+runas /user:Administrator@DOMAIN "net localgroup Administrators DOMAIN\username /add"		runas admin to do it within user session
 
 ----Remove local administrator rights from User----
 net localgroup administrators $username /delete

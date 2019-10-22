@@ -12,3 +12,5 @@ net start bits
 net start DoSvc
 net start cryptSvc
 net start wuauserv
+pause
+exit
