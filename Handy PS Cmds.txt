@@ -148,6 +148,10 @@ $SecurePass = $Password | ConvertTo-SecureString -AsPlainText -Force	//secure pa
 
 ----Take Ownership of Folder recursively----
 TAKEOWN /F "Full-FolderPath" /R /A			/R for recursive, /A for administrators group (instead of current user)
+----Enable/Disable Hardware Device----
+Get-PnpDevice -FriendlyName *$deviceName* | ft -wrap -autosize friendlyname, instanceid		//returns instanceID of device.
+Disable-PnpDevice -InstanceId "PCI\VEN_8086&DEV_0166&SUBSYS_17F4103C&REV_09\3&B1BFB68&0&10" -confirm:$false
+Enable-PnpDevice -InstanceId "PCI\VEN_8086&DEV_0166&SUBSYS_17F4103C&REV_09\3&B1BFB68&0&10" -confirm:$false
 
 ----Grant full access to folders, subfolders and files recursively----
 icacls "Full-Folder-Path" /grant $username:F /t
