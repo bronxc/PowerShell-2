@@ -146,4 +146,8 @@ Add-Type -AssemblyName System.Web	//assembly to use
 $Password = "Welcome" + [system.web.security.membership]::GeneratePassword(x,y)	//x = length in characters, y = minimum number of non-alphanumeric characters
 $SecurePass = $Password | ConvertTo-SecureString -AsPlainText -Force	//secure password object
 
+----Take Ownership of Folder recursively----
+TAKEOWN /F "Full-FolderPath" /R /A			/R for recursive, /A for administrators group (instead of current user)
 
+----Grant full access to folders, subfolders and files recursively----
+icacls "Full-Folder-Path" /grant $username:F /t
