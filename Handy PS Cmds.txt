@@ -123,6 +123,9 @@ Set-VpnConnection -Name "RMGVPN" -SplitTunneling $true
 Send-MailMessage –From user@aquaticachievers.com.au –To muhammad.majid@manganoit.com.au –Subject “Test Email” –Body “Test SMTP Relay Service” -SmtpServer aquaticachievers-com-au.mail.protection.outlook.com
 Send-MailMessage –From blue.apache@stjohnqld.com.au –To muhammad.majid@blueapache.com –Subject “Test Email” –Body “Test SMTP Relay Service” -SmtpServer smtp.office365.com
 
+----Add local user via PowerShell----
+net user $username /add
+
 ----Add User to Remote Desktop Users Group via PowerShell----
 Add-LocalGroupMember -Group "Remote Desktop Users" -Member $username 
 
