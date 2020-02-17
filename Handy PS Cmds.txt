@@ -97,6 +97,7 @@ slmgr /dlv			//display detailed license information
 slmgr /rearm	//extends or reset activation timer
 wmic path SoftwareLicensingService get OA3xOriginalProductKey	//get existing product key
 slmgr /upk		// uninstall product key. Key still remain in registr available if needed.
+slmgr /ipk [#####-#####-#####-#####-#####] 		//installed product key
 slmgr /cpky		// clear product key from registry. Product still stays activated, use slmgr /upk for uninstall.
 
 
