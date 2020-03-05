@@ -14,15 +14,11 @@ wmic bios get serialnumber
 Function insertTimeStamp { return '[' + (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + '] : ' }	//use by (insertTimeStamp)
 
 ----Gain Powershell access to remote computer----
-
-----Run 'winrm quickconfig' on the remote server once, that will be accessed later, to enable pshell remoting.----
-psexec \\servername -u domain\username -p password cmd
-winrm quickconfig
-exit
-
-----Connect using pshell remoting----
-$SavedCred = Get-Credential -Credential domain\username
-Enter-PSSession -ComputerName $RemoteServerName -Credential $SavedCred
+A. psexec \\servername -u domain\username -p password cmd
+B.1 Run 'winrm quickconfig' on the remote server once, that will be accessed later, to enable pshell remoting.
+B.2 winrm quickconfig
+B.3 $SavedCred = Get-Credential -Credential domain\username
+B.4 Enter-PSSession -ComputerName $RemoteServerName -Credential $SavedCred
 
 ----Copying files, Moving files----
 Set-Location \\servername\sharename
@@ -67,6 +63,12 @@ ping.exe -t google.com | Foreach{"{0} - {1}" -f ((Get-Date).ToString('yyyy-MM-dd
 Get-ChildItem D:\folder -include *.tmp -recurse | foreach ($_) {remove-item $_.fullname}
 Get-ChildItem D:\folder -Filter *.txt -Recurse | Remove-Item -WhatIf
 
+----Delete Files and Folders Superfast----
+Say you want to delete folder ABC with full path C:\1\2\3\ABC\*
+1. Command prompt into ABC
+2. from within ABC -> C:\1\2\3\ABC> DEL /F/Q/S *.* > NUL		//deletes all files in current and all subfolders recursively
+3. do cd.. to go to parent (3) -> C:\1\2\3> RMDIR /Q/S "ABC"	//deletes all folders and subfolders recursively
+
 ----Pause exectuion of script of 5 secs----
 Start-Sleep -s 5
 
@@ -104,7 +106,7 @@ slmgr /cpky		// clear product key from registry. Product still stays activated, 
 ----Attempt Activation Using whichever key is installed----
 slmgr.vbs /ato
 
-----Check which  KMS server is being attempted for activation----
+----Check which KMS server is being attempted for activation----
 nslookup -type=srv _vlmcs._tcp
 
 ----Manually assign a KMS host to a client----
@@ -172,3 +174,7 @@ GPRESULT /USER $targetusername /H C:\Scripts\GPReport.html
 
 ----Trace Route to a perticular website or IP----
 tracert $webSiteURL-or-IP
+
+----Kill a task----
+tasklist
+taskkill /IM outlook.exe /f
