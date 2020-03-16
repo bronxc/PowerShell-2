@@ -7,8 +7,15 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 ----Get full system information----
 systeminfo
 
+----Get last bootime, time since last reboot----
+Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
+Systeminfo | find "System Boot Time"		//command prompt
+
 ----Get Workstation Serial Number of PC----
 wmic bios get serialnumber
+
+----Check if Harddisk is SSD----
+Get-PhysicalDisk
 
 ----Function to insert TimeStamp----
 Function insertTimeStamp { return '[' + (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + '] : ' }	//use by (insertTimeStamp)
@@ -71,9 +78,6 @@ Say you want to delete folder ABC with full path C:\1\2\3\ABC\*
 
 ----Pause exectuion of script of 5 secs----
 Start-Sleep -s 5
-
-----Get last bootime, time since last reboot----
-Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
 
 ----Get windows update log----
 Get-WindowsUpdateLog
