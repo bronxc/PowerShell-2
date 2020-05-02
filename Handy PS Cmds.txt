@@ -11,6 +11,9 @@ systeminfo
 Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
 Systeminfo | find "System Boot Time"		//command prompt
 
+----Get last logon time on a local workstation----
+quser
+
 ----Get Workstation Serial Number of PC----
 wmic bios get serialnumber
 
@@ -65,6 +68,7 @@ w32tm /config /update		//saves the changes
 
 ----Ping test and save timestamped output to a log file----
 ping.exe -t google.com | Foreach{"{0} - {1}" -f ((Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + ' : '),$_} >> C:\Scripts\pingOutput.log
+ping.exe -t google.com | Foreach{"{0} - {1}" -f ((Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + ' : '),$_} >> C:\Scripts\pingOutput_$((Get-Date).ToString('yyyyMMddHHmmss')).log
 
 ----Delete a specific file extension recursively----
 Get-ChildItem D:\folder -include *.tmp -recurse | foreach ($_) {remove-item $_.fullname}
@@ -100,11 +104,11 @@ Invoke-SqlCmd -query "select @@version" -ServerInstance "localhost"
 slmgr /xpr			//expiration date
 slmgr /dli			//display license infomation
 slmgr /dlv			//display detailed license information
-slmgr /rearm	//extends or reset activation timer
+slmgr /rearm		//extends or reset activation timer
 wmic path SoftwareLicensingService get OA3xOriginalProductKey	//get existing product key
-slmgr /upk		// uninstall product key. Key still remain in registr available if needed.
+slmgr /upk			// uninstall product key. Key still remain in registry available if needed.
 slmgr /ipk [#####-#####-#####-#####-#####] 		//installed product key
-slmgr /cpky		// clear product key from registry. Product still stays activated, use slmgr /upk for uninstall.
+slmgr /cpky			// clear product key from registry. Product still stays activated, use slmgr /upk for uninstall.
 
 
 ----Attempt Activation Using whichever key is installed----
@@ -163,14 +167,21 @@ $SecurePass = $Password | ConvertTo-SecureString -AsPlainText -Force	//secure pa
 
 ----Take Ownership of Folder recursively----
 TAKEOWN /F "Full-FolderPath" /R /A			/R for recursive, /A for administrators group (instead of current user)
+icacls "full path of folder or drive" /setowner "$domain\username" /T /C
+
+----Grant full access to folders, subfolders and files recursively----
+icacls "Full-Folder-Path" /grant $username:F /t
+
+----Backup ACL permissions of a folder recursively----
+icacls "full path of folder" /save $filename.txt /t /c
+
+----Restore ACL permissions backed up earlier----
+icacls "full path of folder" /restore $filename.txt
 
 ----Enable/Disable Hardware Device----
 Get-PnpDevice -FriendlyName *$deviceName* | ft -wrap -autosize friendlyname, instanceid		//returns instanceID of device.
 Disable-PnpDevice -InstanceId "PCI\VEN_8086&DEV_0166&SUBSYS_17F4103C&REV_09\3&B1BFB68&0&10" -confirm:$false
 Enable-PnpDevice -InstanceId "PCI\VEN_8086&DEV_0166&SUBSYS_17F4103C&REV_09\3&B1BFB68&0&10" -confirm:$false
-
-----Grant full access to folders, subfolders and files recursively----
-icacls "Full-Folder-Path" /grant $username:F /t
 
 ----Run group policy report----
 GPRESULT /H C:\Scripts\GPReport.html
@@ -182,3 +193,12 @@ tracert $webSiteURL-or-IP
 ----Kill a task----
 tasklist
 taskkill /IM outlook.exe /f
+
+----Check Citrix Server's Stats----
+Get-BrokerMachine | Select DNSName, LoadIndex, LoadIndexes, SessionCount, SessionsPending | ft
+
+----Check available editions in install.ese, install.wim or install.swm file----
+dism /Get-WimInfo /WimFile:F:\sources\install.esd
+or use 7zip to open the above file and look into [1].xml
+
+

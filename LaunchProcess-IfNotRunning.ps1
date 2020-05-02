@@ -1,14 +1,15 @@
-Set-ExecutionPolicy -ExecutionPolicy Bypass
-function Get-TimeStamp { return "[{0:MM/dd/yy} {0:HH:mm:ss}]" -f (Get-Date) }
+#Set-ExecutionPolicy -ExecutionPolicy Bypass
+Function insertTimeStamp { return '[' + (Get-Date).ToString('yyyy-MM-dd HH:mm:ss') + '] : ' }	#//use by (insertTimeStamp)
 
-$programName = "WorkBook.Agent.ConsoleRunner"
+$programName = "PQRefreshManager"
+$fullProgramPath = "C:\Program Files\PowerPlanner\Power Update\PQRefreshManager.exe"
 $Running = Get-Process $programName -ErrorAction SilentlyContinue
 if (!$Running)
 {
- "$(Get-TimeStamp) WorkBook.Agent.ConsoleRunner.exe NOT running... Launching" | Out-File -FilePath "C:\scripts\WorkBook_Launch.log" -append
- Start-Process C:\inetpub\WorkBook\Agents\Production\Workbook.Agent.ConsoleRunner.exe
+ "$(insertTimeStamp) PQRefreshManager NOT running... Launching" | Out-File -FilePath "C:\scripts\PQRefreshManager_running.log" -append
+ Invoke-WmiMethod -Class Win32_Process -Name create -ArgumentList $fullProgramPath
 }
 else
 {
- "$(Get-TimeStamp) WorkBook.Agent.ConsoleRunner.exe is already running..." | Out-File -FilePath "C:\scripts\WorkBook_Launch.log" -append
-} 
+ "$(insertTimeStamp) PQRefreshManager is already running..." | Out-File -FilePath "C:\scripts\PQRefreshManager_running.log" -append
+}
