@@ -30,6 +30,12 @@ B.2 winrm quickconfig
 B.3 $SavedCred = Get-Credential -Credential domain\username
 B.4 Enter-PSSession -ComputerName $RemoteServerName -Credential $SavedCred
 
+----output to HTML----
+| ConvertTo-Html | Out-File .\outputFileName.html
+
+----output to CSV----
+| Export-CSV .\outputFileName.csv -noTypeInformation
+
 ----Copying files, Moving files----
 Set-Location \\servername\sharename
 Copy-Item \\servername1\sharename1\filename.ext \\servername2\sharename2
@@ -201,4 +207,26 @@ Get-BrokerMachine | Select DNSName, LoadIndex, LoadIndexes, SessionCount, Sessio
 dism /Get-WimInfo /WimFile:F:\sources\install.esd
 or use 7zip to open the above file and look into [1].xml
 
+----Copy files from remote linux machine to local---
+pscp.exe pi@Mj-VPNPI:/home/pi/configs/* 'C:\Users\Mj\Dropbox\Configurations\WireGuard_Profiles'
+
+----Get my Public IP---
+A. (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
+B. Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
+C. $ipinfo = Invoke-RestMethod http://ipinfo.io/json
+$ipinfo.ip
+$ipinfo.hostname
+$ipinfo.city
+$ipinfo.region
+$ipinfo.country
+$ipinfo.loc
+$ipinfo.org
+
+----Run Chrome with a Different Dir to store user data---
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="Dir_Path_Here"
+work well by creating a shortcut to chrome and adding [--user-data-dir="Dir_Path_Here] to the properties -> Target.
+
+----Get ACL / Folder Permissions----
+get-FolderACL.ps1 -path [-recurse] $folderPath | ConvertTo-Html | Out-File .\outputFileName.html
+get-FolderACL.ps1 -path [-recurse] $folderPath | Export-CSV .\outputFileName.csv -noTypeInformation
 
