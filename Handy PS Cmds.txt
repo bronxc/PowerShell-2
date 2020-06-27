@@ -230,3 +230,7 @@ work well by creating a shortcut to chrome and adding [--user-data-dir="Dir_Path
 get-FolderACL.ps1 -path [-recurse] $folderPath | ConvertTo-Html | Out-File .\outputFileName.html
 get-FolderACL.ps1 -path [-recurse] $folderPath | Export-CSV .\outputFileName.csv -noTypeInformation
 
+----Get Index number of windwos version in install.esd or install.wim file----
+Dism /Get-ImageInfo /imagefile:$driveLetter:\x64\sources\install.esd		// usually 6 for Win10 Pro
+Dism /Get-ImageInfo /imagefile:$driveLetter:\x86\sources\install.esd
+
