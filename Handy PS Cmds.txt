@@ -234,3 +234,5 @@ get-FolderACL.ps1 -path [-recurse] $folderPath | Export-CSV .\outputFileName.csv
 Dism /Get-ImageInfo /imagefile:$driveLetter:\x64\sources\install.esd		// usually 6 for Win10 Pro
 Dism /Get-ImageInfo /imagefile:$driveLetter:\x86\sources\install.esd
 
+----regKey for WSD to IP----
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\SWD\DAFWSDProvider			//look for key: LocationInformation
