@@ -42,6 +42,12 @@ Copy-Item \\servername1\sharename1\filename.ext \\servername2\sharename2
 Remove-Item \\servername\sharename\foldername\filename.ext
 Copy-Item C:\scripts c:\test -recurse		//copies 'scripts' folder in 'test' folder along with all contents.
 
+----Copy / Mirror all contents of a directory to another creating destination if doesn't exist----
+Robocopy 'C:\Rocket Software.bkp_20190611' 'C:\Rocket Software' /MIR
+
+----Copy files from remote linux machine to local---
+pscp.exe pi@Mj-VPNPI:/home/pi/configs/* 'C:\Users\Mj\Dropbox\Configurations\WireGuard_Profiles'
+
 ----View VSS Writers and Providers----
 vssadmin list writers
 vssadmin list providers
@@ -70,6 +76,8 @@ net time
 (TO BE USED ONLY ON PDC since they are sources for rest of the domain and subdomains)
 w32tm /query /status			//shows current config
 w32tm /config /syncfromflags:MANUAL /manualpeerlist:pool.ntp.org /reliable:YES		//modifies the sources
+w32tm /config /syncfromflags:MANUAL /manualpeerlist:au.pool.ntp.org /reliable:YES	//modifies the sources
+w32tm /config /syncfromflags:MANUAL /manualpeerlist:"0.au.pool.ntp.org 1.au.pool.ntp.org 2.au.pool.ntp.org 3.au.pool.ntp.org" /reliable:YES	//modifies the sources
 w32tm /config /update		//saves the changes
 
 ----Ping test and save timestamped output to a log file----
@@ -154,9 +162,6 @@ Add-LocalGroupMember -Group "Remote Desktop Users" -Member $username
 ----Remove User from Remote Desktop Users Group via PowerShell----
 Remove-LocalGroupMember -Group "Remote Desktop Users" -Member $username
 
-----Copy / Mirror all contents of a directory to another creating destination if doesn't exist----
-Robocopy 'C:\Rocket Software.bkp_20190611' 'C:\Rocket Software' /MIR
-
 ----Grant local administrator rights to a User----
 net localgroup administrators $username /add
 net localgroup "Remote desktop users" $username /add
@@ -207,9 +212,6 @@ Get-BrokerMachine | Select DNSName, LoadIndex, LoadIndexes, SessionCount, Sessio
 dism /Get-WimInfo /WimFile:F:\sources\install.esd
 or use 7zip to open the above file and look into [1].xml
 
-----Copy files from remote linux machine to local---
-pscp.exe pi@Mj-VPNPI:/home/pi/configs/* 'C:\Users\Mj\Dropbox\Configurations\WireGuard_Profiles'
-
 ----Get my Public IP---
 A. (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
 B. Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
@@ -227,10 +229,16 @@ $ipinfo.org
 work well by creating a shortcut to chrome and adding [--user-data-dir="Dir_Path_Here] to the properties -> Target.
 
 ----Get ACL / Folder Permissions----
-get-FolderACL.ps1 -path [-recurse] $folderPath | ConvertTo-Html | Out-File .\outputFileName.html
-get-FolderACL.ps1 -path [-recurse] $folderPath | Export-CSV .\outputFileName.csv -noTypeInformation
+get-FolderACL.ps1 -path $folderPath [-recurse] | ConvertTo-Html | Out-File .\Folder-ACL.html
+get-FolderACL.ps1 -path $folderPath [-recurse] | Export-CSV .\Folder-ACL.csv -noTypeInformation
 
 ----Get Index number of windwos version in install.esd or install.wim file----
 Dism /Get-ImageInfo /imagefile:$driveLetter:\x64\sources\install.esd		// usually 6 for Win10 Pro
 Dism /Get-ImageInfo /imagefile:$driveLetter:\x86\sources\install.esd
+
+----regKey for WSD to IP----
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\SWD\DAFWSDProvider			//look for key: LocationInformation
+
+----convert certificate .pem to .crt----
+openssl x509 -outform der -in your-cert.pem -out your-cert.crt
 
