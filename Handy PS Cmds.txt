@@ -241,4 +241,3 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\SWD\DAFWSDProvider			//look for
 
 ----convert certificate .pem to .crt----
 openssl x509 -outform der -in your-cert.pem -out your-cert.crt
-
